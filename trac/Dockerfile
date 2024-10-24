@@ -22,10 +22,11 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY uwsgi.ini /etc/uwsgi.ini
 
 RUN addgroup -g 444 trac && \
-    adduser -u 444 -G trac -D trac
+    adduser -u 444 -G trac -D trac && \
+    chown -R trac:trac /var/lib/nginx
 USER trac
 
 VOLUME /home/trac
-EXPOSE 8080
+EXPOSE 8080 3031
 
 ENTRYPOINT ["/run.sh"]

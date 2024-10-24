@@ -1,8 +1,8 @@
 #!/bin/sh
 
 if [ "$1" = "init" ]; then
-    if ! [ -d /home/trak/env ]; then
-        trac-admin /home/trac/env initenv
+    if ! [ -d /home/trac/env ]; then
+        trac-admin /home/trac/env initenv || exit $?
     fi
     rm -rf /home/trac/deploy
     trac-admin /home/trac/env deploy /home/trac/deploy
