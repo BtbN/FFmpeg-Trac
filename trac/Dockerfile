@@ -1,10 +1,12 @@
 FROM python:3.13-alpine AS builder
 
 RUN apk upgrade --no-cache && \
-    apk add --no-cache build-base linux-headers pcre-dev
+    apk add --no-cache build-base linux-headers pcre-dev subversion
 RUN pip install --upgrade --no-cache-dir setuptools pip wheel build
 
-RUN pip wheel --no-cache-dir -w /wheels uwsgi
+RUN pip wheel --no-cache-dir -w /wheels --no-deps \
+                uwsgi \
+                "svn+https://svn.edgewall.org/repos/trac/plugins/trunk/spam-filter"
 
 
 FROM python:3.13-alpine
@@ -12,8 +14,12 @@ FROM python:3.13-alpine
 RUN apk upgrade --no-cache && \
     apk add --no-cache nginx pcre
 
-RUN pip install --upgrade --no-cache-dir setuptools pip && \
-    pip install --no-cache-dir "trac[psycopg2-binary,mysql,babel,pygments,rest,textile]==1.6"
+RUN pip install --upgrade --no-cache-dir setuptools pip
+RUN pip install --no-cache-dir "trac[psycopg2-binary,mysql,babel,pygments,rest,textile]==1.6" \
+                TracTags \
+                TracVote \
+                TracSensitiveTickets \
+                TracAccountManager
 
 RUN --mount=from=builder,source=/wheels,target=/wheels pip install --no-cache-dir /wheels/*.whl
 
