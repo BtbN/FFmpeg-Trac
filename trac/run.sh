@@ -11,7 +11,7 @@ elif [ "$1" = "nginx" ]; then
     exec nginx -e stderr "$@"
 elif [ "$1" = "uwsgi" ]; then
     shift
-    exec uwsgi --ini /etc/uwsgi.ini
+    exec uwsgi --ini /etc/uwsgi.ini "$@"
 elif [ "$1" = "sh" ]; then
     shift
     exec sh "$@"
