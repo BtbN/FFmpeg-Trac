@@ -1,7 +1,7 @@
 FROM python:3.13-alpine AS builder
 
 RUN apk upgrade --no-cache && \
-    apk add --no-cache build-base linux-headers
+    apk add --no-cache build-base linux-headers pcre-dev
 RUN pip install --upgrade --no-cache-dir setuptools pip wheel build
 
 RUN pip wheel --no-cache-dir -w /wheels uwsgi
@@ -10,7 +10,7 @@ RUN pip wheel --no-cache-dir -w /wheels uwsgi
 FROM python:3.13-alpine
 
 RUN apk upgrade --no-cache && \
-    apk add --no-cache nginx
+    apk add --no-cache nginx pcre
 
 RUN pip install --upgrade --no-cache-dir setuptools pip && \
     pip install --no-cache-dir "trac[psycopg2-binary,mysql,babel,pygments,rest,textile]==1.6"

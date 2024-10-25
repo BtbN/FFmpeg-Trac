@@ -1,0 +1,48 @@
+services:
+  nginx:
+    image: ffmpeg_trac:latest
+    build: trac
+    restart: unless-stopped
+    volumes:
+      - ./home:/home/trac
+    networks:
+      - back
+      - front
+    ports:
+      - 8080:8080
+    depends_on:
+      - uwsgi
+    command: nginx
+  uwsgi:
+    image: ffmpeg_trac:latest
+    build: trac
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme}
+      - UWSGI_MASTER=true
+      - UWSGI_PROCESSES=${UWSGI_PROCESSES:-4}
+      - UWSGI_THREADS=${UWSGI_THREADS:-4}
+    volumes:
+      - ./home:/home/trac
+    networks:
+      - back
+    depends_on:
+      - db
+    command: uwsgi
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - back
+
+volumes:
+  pgdata:
+
+networks:
+  front:
+  back:
+    internal: true
