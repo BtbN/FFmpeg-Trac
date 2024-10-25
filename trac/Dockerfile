@@ -27,6 +27,6 @@ RUN addgroup -g 444 trac && \
 USER trac
 
 VOLUME /home/trac
-EXPOSE 8080 3031
+EXPOSE 8080
 
 ENTRYPOINT ["/run.sh"]
