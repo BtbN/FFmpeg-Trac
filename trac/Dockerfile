@@ -12,7 +12,7 @@ RUN pip wheel --no-cache-dir -w /wheels --no-deps \
 FROM python:3.13-alpine
 
 RUN apk upgrade --no-cache && \
-    apk add --no-cache nginx pcre
+    apk add --no-cache nginx pcre mariadb-client
 
 RUN pip install --upgrade --no-cache-dir setuptools pip
 RUN pip install --no-cache-dir "trac[mysql,babel,pygments,rest,textile]==1.6" \

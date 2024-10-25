@@ -1,7 +1,6 @@
 services:
   nginx:
     image: ffmpeg_trac:latest
-    build: trac
     restart: unless-stopped
     volumes:
       - ./home:/home/trac
@@ -40,6 +39,7 @@ services:
       - MARIADB_PASSWORD=${MARIADB_PASSWORD:-changemetoo}
       - MARIADB_DATABASE=${MARIADB_DATABASE:-trac}
       - MARIADB_AUTO_UPGRADE=true
+    command: ["mariadbd", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_bin"]
     volumes:
       - mariadata:/var/lib/mysql
     networks:
