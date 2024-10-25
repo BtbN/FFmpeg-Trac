@@ -15,7 +15,7 @@ RUN apk upgrade --no-cache && \
     apk add --no-cache nginx pcre
 
 RUN pip install --upgrade --no-cache-dir setuptools pip
-RUN pip install --no-cache-dir "trac[psycopg2-binary,mysql,babel,pygments,rest,textile]==1.6" \
+RUN pip install --no-cache-dir "trac[mysql,babel,pygments,rest,textile]==1.6" \
                 TracTags \
                 TracVote \
                 TracSensitiveTickets \

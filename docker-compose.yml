@@ -18,7 +18,9 @@ services:
     build: trac
     restart: unless-stopped
     environment:
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme}
+      - MARIADB_USER=${MARIADB_USER:-changemetoo}
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD:-changemetoo}
+      - MARIADB_DATABASE=${MARIADB_DATABASE:-trac}
       - UWSGI_MASTER=true
       - UWSGI_PROCESSES=${UWSGI_PROCESSES:-4}
       - UWSGI_THREADS=${UWSGI_THREADS:-4}
@@ -30,17 +32,21 @@ services:
       - db
     command: uwsgi
   db:
-    image: postgres:17-alpine
+    image: mariadb:11
     restart: unless-stopped
     environment:
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme}
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD:-changeme}
+      - MARIADB_USER=${MARIADB_USER:-changemetoo}
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD:-changemetoo}
+      - MARIADB_DATABASE=${MARIADB_DATABASE:-trac}
+      - MARIADB_AUTO_UPGRADE=true
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - mariadata:/var/lib/mysql
     networks:
       - back
 
 volumes:
-  pgdata:
+  mariadata:
 
 networks:
   front:
