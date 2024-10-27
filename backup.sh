@@ -1,13 +1,18 @@
-#!/bin/sh
-TGT="$(realpath "$1")"
-cd "$(dirname "$0")"
+#!/bin/bash
 
 if [ "$#" != 1 ]; then
 	echo "Invalid arguments"
 	exit 1
 fi
 
-./build.sh || exit $?
+BKNAME="${1}"
+cd "$(dirname "$0")"
 
-docker run --rm -v "$PWD/home:/home/trac" -v "${TGT}:/bak" -u root ffmpeg_trac:latest sh -c "chown trac:trac /bak"
-docker run --rm -v "$PWD/home:/home/trac" -v "${TGT}:/bak" -u trac ffmpeg_trac:latest sh -c "trac-admin /home/trac/env hotcopy '/bak/${2:-trac_backup}'"
+docker compose exec trac sh -c "trac-admin /home/trac/env hotcopy '/home/trac/backup/$BKNAME' --no-database" || exit $?
+
+test -f .env && source .env
+POSTGRES_USER="${POSTGRES_USER:-trac}"
+POSTGRES_DB="${POSTGRES_DB:-trac}"
+POSTGRES_SCHEMA="${POSTGRES_SCHEMA:-trac}"
+
+docker compose exec db pg_dump -C --inserts -x -Z 8 -U "${POSTGRES_USER}" -d "${POSTGRES_DB}" -n "${POSTGRES_SCHEMA}" -p 5432 > "${TGT}/${BKNAME}"/db/postgres-db-backup.sql.gz
