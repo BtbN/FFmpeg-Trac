@@ -23,9 +23,10 @@ RUN pip install --no-cache-dir "trac[mysql,babel,pygments,rest,textile]==1.6" \
 
 RUN --mount=from=builder,source=/wheels,target=/wheels pip install --no-cache-dir /wheels/*.whl
 
-COPY run.sh /run.sh
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY uwsgi.ini /etc/uwsgi.ini
+RUN --mount=source=.,target=/tmp/files cd /tmp/files && \
+    cp run.sh /run.sh && \
+    cp nginx.conf /etc/nginx/nginx.conf && \
+    cp uwsgi.ini /etc/uwsgi.ini
 
 RUN addgroup -g 444 trac && \
     adduser -u 444 -G trac -D trac && \
