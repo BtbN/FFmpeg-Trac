@@ -17,9 +17,6 @@ services:
     build: trac
     restart: unless-stopped
     environment:
-      - MARIADB_USER=${MARIADB_USER:-changemetoo}
-      - MARIADB_PASSWORD=${MARIADB_PASSWORD:-changemetoo}
-      - MARIADB_DATABASE=${MARIADB_DATABASE:-trac}
       - UWSGI_MASTER=true
       - UWSGI_PROCESSES=${UWSGI_PROCESSES:-4}
       - UWSGI_THREADS=${UWSGI_THREADS:-4}
@@ -27,23 +24,7 @@ services:
       - ./home:/home/trac
     networks:
       - back
-    depends_on:
-      - db
     command: uwsgi
-  db:
-    image: mariadb:11
-    restart: unless-stopped
-    environment:
-      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD:-changeme}
-      - MARIADB_USER=${MARIADB_USER:-changemetoo}
-      - MARIADB_PASSWORD=${MARIADB_PASSWORD:-changemetoo}
-      - MARIADB_DATABASE=${MARIADB_DATABASE:-trac}
-      - MARIADB_AUTO_UPGRADE=true
-    command: ["mariadbd", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_bin"]
-    volumes:
-      - mariadata:/var/lib/mysql
-    networks:
-      - back
 
 volumes:
   mariadata:
