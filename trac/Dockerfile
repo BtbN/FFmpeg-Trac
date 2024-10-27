@@ -6,7 +6,9 @@ RUN pip install --upgrade --no-cache-dir setuptools pip wheel build
 
 RUN pip wheel --no-cache-dir -w /wheels --no-deps \
                 uwsgi \
-                "svn+https://svn.edgewall.org/repos/trac/plugins/trunk/spam-filter"
+                "svn+https://svn.edgewall.org/repos/trac/plugins/trunk/spam-filter" \
+                "svn+https://trac-hacks.org/svn/tagsplugin/trunk" \
+                "svn+https://trac-hacks.org/svn/voteplugin/trunk"
 
 
 FROM python:3.13-alpine
@@ -16,8 +18,6 @@ RUN apk upgrade --no-cache && \
 
 RUN pip install --upgrade --no-cache-dir setuptools pip
 RUN pip install --no-cache-dir "trac[psycopg2-binary,mysql,babel,pygments,rest,textile]==1.6" \
-                TracTags \
-                TracVote \
                 TracSensitiveTickets \
                 TracAccountManager
 
