@@ -30,7 +30,8 @@ RUN --mount=from=builder,source=/wheels,target=/wheels pip install --no-cache-di
 RUN --mount=source=.,target=/tmp/files cd /tmp/files && \
     cp run.sh /run.sh && \
     cp nginx.conf /etc/nginx/nginx.conf && \
-    cp uwsgi.ini /etc/uwsgi.ini
+    cp uwsgi.ini /etc/uwsgi.ini && \
+    cp ffmpeg-logo.png /opt/ffmpeg-logo.png
 
 RUN addgroup -g 444 trac && \
     adduser -u 444 -G trac -D trac && \
