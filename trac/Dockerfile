@@ -12,7 +12,7 @@ RUN pip wheel --no-cache-dir -w /wheels --no-deps \
 FROM python:3.13-alpine
 
 RUN apk upgrade --no-cache && \
-    apk add --no-cache nginx pcre mariadb-client sqlite curl patch git
+    apk add --no-cache pcre nginx postgresql16-client sqlite curl patch git
 
 RUN pip install --upgrade --no-cache-dir setuptools pip
 RUN pip install --no-cache-dir "trac[psycopg2-binary,mysql,babel,pygments,rest,textile]==1.6" \
