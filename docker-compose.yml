@@ -1,19 +1,21 @@
 services:
   nginx:
     image: ffmpeg_trac:latest
+    pull_policy: never
     restart: unless-stopped
     volumes:
       - ./home:/home/trac
     networks:
-      - back
       - front
+      - back
     ports:
       - 8080:8080
     depends_on:
-      - uwsgi
+      - trac
     command: nginx
-  uwsgi:
+  trac:
     image: ffmpeg_trac:latest
+    pull_policy: build
     build: trac
     restart: unless-stopped
     environment:
@@ -24,10 +26,25 @@ services:
       - ./home:/home/trac
     networks:
       - back
+      - front
+    depends_on:
+      - db
     command: uwsgi
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme_via_.env}
+      - POSTGRES_USER=${POSTGRES_USER:-trac}
+      - POSTGRES_DB=${POSTGRES_DB:-trac}
+      - PGDATA=/var/lib/postgresql/data/17
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - back
 
 volumes:
-  mariadata:
+  pgdata:
 
 networks:
   front:

@@ -12,14 +12,18 @@ RUN pip wheel --no-cache-dir -w /wheels --no-deps \
 FROM python:3.13-alpine
 
 RUN apk upgrade --no-cache && \
-    apk add --no-cache nginx pcre mariadb-client
+    apk add --no-cache nginx pcre mariadb-client sqlite curl patch git
 
 RUN pip install --upgrade --no-cache-dir setuptools pip
-RUN pip install --no-cache-dir "trac[mysql,babel,pygments,rest,textile]==1.6" \
+RUN pip install --no-cache-dir "trac[psycopg2-binary,mysql,babel,pygments,rest,textile]==1.6" \
                 TracTags \
                 TracVote \
                 TracSensitiveTickets \
                 TracAccountManager
+
+RUN cd /usr/local/lib/python3.*/site-packages && \
+    curl https://github.com/BtbN/trac/commit/39d1d42d20b0644972558ebc324dfdd01890515d.patch | patch -p1 && \
+    python3 -c "import trac.db.postgres_backend"
 
 RUN --mount=from=builder,source=/wheels,target=/wheels pip install --no-cache-dir /wheels/*.whl
 
