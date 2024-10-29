@@ -1,5 +1,7 @@
-#!/bin/sh
+#!/bin/bash
+set -xe
 cd "$(dirname "$0")"
-docker compose pull || exit $?
-docker compose build --pull || exit $?
+docker compose pull
+docker compose build --pull
 docker compose up -d
+docker system prune -a -f

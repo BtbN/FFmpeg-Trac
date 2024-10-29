@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 if [ "$#" != 1 ]; then
 	echo "Invalid arguments"
@@ -8,7 +9,7 @@ fi
 BKNAME="${1}"
 cd "$(dirname "$0")"
 
-docker compose exec trac sh -c "trac-admin /home/trac/env hotcopy '/home/trac/backup/$BKNAME' --no-database" || exit $?
+docker compose exec trac sh -c "trac-admin /home/trac/env hotcopy '/home/trac/backup/$BKNAME' --no-database"
 
 test -f .env && source .env
 POSTGRES_USER="${POSTGRES_USER:-trac}"
