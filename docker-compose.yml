@@ -20,6 +20,7 @@ services:
     restart: unless-stopped
     environment:
       - UWSGI_MASTER=true
+      - UWSGI_LOG_MASTER=true
       - UWSGI_PROCESSES=${UWSGI_PROCESSES:-4}
       - UWSGI_THREADS=${UWSGI_THREADS:-4}
     volumes:
