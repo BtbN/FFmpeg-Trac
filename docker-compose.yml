@@ -23,6 +23,7 @@ services:
       - UWSGI_LOG_MASTER=true
       - UWSGI_PROCESSES=${UWSGI_PROCESSES:-4}
       - UWSGI_THREADS=${UWSGI_THREADS:-4}
+      - HTTP_X_FORWARDED_PROTO="${HTTP_PROTO:-http}"
     volumes:
       - ./home:/home/trac
     networks:
