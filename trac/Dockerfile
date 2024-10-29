@@ -22,12 +22,14 @@ RUN apk add --no-cache build-base linux-headers pcre-dev subversion
 
 RUN pip wheel --no-cache-dir -w /wheels --no-deps \
                 uwsgi \
-                "svn+https://svn.edgewall.org/repos/trac/plugins/trunk/spam-filter" \
-                "svn+https://trac-hacks.org/svn/tagsplugin/trunk" \
-                "svn+https://trac-hacks.org/svn/voteplugin/trunk" \
-                "svn+https://trac-hacks.org/svn/announcerplugin/trunk" \
-                "svn+https://trac-hacks.org/svn/tracformsplugin/trunk" \
-                "svn+https://trac-hacks.org/svn/screenshotsplugin/1.2"
+                "svn+https://svn.edgewall.org/repos/trac/plugins/trunk/spam-filter@17866" \
+                "svn+https://trac-hacks.org/svn/tagsplugin/trunk@18659" \
+                "svn+https://trac-hacks.org/svn/voteplugin/trunk@18659"
+
+# Not compatible with Python 3/Trac 1.6:
+#               "svn+https://trac-hacks.org/svn/tracformsplugin/trunk@18659"
+#               "svn+https://trac-hacks.org/svn/announcerplugin/trunk@18659"
+#               "svn+https://trac-hacks.org/svn/screenshotsplugin/1.2@18659"
 
 
 FROM base
