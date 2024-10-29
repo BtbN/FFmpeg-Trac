@@ -1,29 +1,36 @@
-FROM python:3.13-alpine AS builder
+FROM python:3.13-alpine AS base
 
 RUN apk upgrade --no-cache && \
-    apk add --no-cache build-base linux-headers pcre-dev subversion
+    apk add --no-cache pcre nginx postgresql16-client sqlite curl patch git
+
 RUN pip install --upgrade --no-cache-dir setuptools pip wheel build
+RUN pip install --no-cache-dir "trac[psycopg2-binary,mysql,babel,pygments,rest,textile]==1.6" \
+                TracSensitiveTickets \
+                TracAccountManager \
+                dnspython \
+                pillow \
+                filelock
+
+RUN cd /usr/local/lib/python3.*/site-packages && \
+    curl https://github.com/BtbN/trac/commit/39d1d42d20b0644972558ebc324dfdd01890515d.patch | patch -p1 && \
+    python3 -c "import trac.db.postgres_backend"
+
+
+FROM base AS builder
+
+RUN apk add --no-cache build-base linux-headers pcre-dev subversion
 
 RUN pip wheel --no-cache-dir -w /wheels --no-deps \
                 uwsgi \
                 "svn+https://svn.edgewall.org/repos/trac/plugins/trunk/spam-filter" \
                 "svn+https://trac-hacks.org/svn/tagsplugin/trunk" \
-                "svn+https://trac-hacks.org/svn/voteplugin/trunk"
+                "svn+https://trac-hacks.org/svn/voteplugin/trunk" \
+                "svn+https://trac-hacks.org/svn/announcerplugin/trunk" \
+                "svn+https://trac-hacks.org/svn/tracformsplugin/trunk" \
+                "svn+https://trac-hacks.org/svn/screenshotsplugin/1.2"
 
 
-FROM python:3.13-alpine
-
-RUN apk upgrade --no-cache && \
-    apk add --no-cache pcre nginx postgresql16-client sqlite curl patch git
-
-RUN pip install --upgrade --no-cache-dir setuptools pip
-RUN pip install --no-cache-dir "trac[psycopg2-binary,mysql,babel,pygments,rest,textile]==1.6" \
-                TracSensitiveTickets \
-                TracAccountManager
-
-RUN cd /usr/local/lib/python3.*/site-packages && \
-    curl https://github.com/BtbN/trac/commit/39d1d42d20b0644972558ebc324dfdd01890515d.patch | patch -p1 && \
-    python3 -c "import trac.db.postgres_backend"
+FROM base
 
 RUN --mount=from=builder,source=/wheels,target=/wheels pip install --no-cache-dir /wheels/*.whl
 
