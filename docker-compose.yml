@@ -9,7 +9,7 @@ services:
       - front
       - back
     ports:
-      - 8080:8080
+      - "${HTTP_PORT:-8080}:8080"
     depends_on:
       - trac
     command: nginx
