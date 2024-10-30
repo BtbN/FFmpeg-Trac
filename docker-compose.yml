@@ -34,6 +34,21 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     command: uwsgi
+  ircbot:
+    image: ffmpeg_trac:latest
+    pull_policy: never
+    restart: unless-stopped
+    environment:
+      - IRC_SERVER=${IRC_SERVER:-irc.libera.chat}
+      - IRC_PORT=${IRC_SERVER:-+6697}
+      - IRC_CHANNEL=${IRC_CHANNEL:-#testmybot}
+      - IRC_NICK=${IRC_NICK:-FFTrac}
+      - IRC_HTTP_HOST=0.0.0.0
+      - IRC_HTTP_PORT=8787
+    networks:
+      - back
+      - front
+    command: ircbot
   db:
     image: postgres:16-alpine
     restart: unless-stopped

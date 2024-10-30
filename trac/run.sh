@@ -12,10 +12,14 @@ elif [ "$1" = "nginx" ]; then
 elif [ "$1" = "uwsgi" ]; then
     shift
     exec uwsgi --ini /etc/uwsgi.ini "$@"
+elif [ "$1" = "ircbot" ]; then
+    shift
+    export PYTHONUNBUFFERED=1
+    exec simpleircrelay "$@"
 elif [ "$1" = "sh" ]; then
     shift
     exec sh "$@"
 else
-    echo "No mode: init, nginx, uwsgi, sh"
+    echo "No mode: init, nginx, uwsgi, ircbot, sh"
     exit 1
 fi
