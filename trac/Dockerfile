@@ -5,7 +5,7 @@ RUN apk upgrade --no-cache && \
 
 RUN pip install --upgrade --no-cache-dir setuptools pip wheel build
 RUN pip install --no-cache-dir "trac[psycopg2-binary,mysql,babel,pygments,rest,textile] @ git+https://github.com/BtbN/trac.git@3311894991fa86c41b3c6af96c5b571ef0cfcfb8" \
-                "git+https://github.com/BtbN/SimpleIrcRelay.git@4466db83e87b2fddde2b2d49c09e3816e4e4b0c0" \
+                "git+https://github.com/BtbN/SimpleIrcRelay.git@18501edd6ae29892906b8abf32a9ea1497dbbb9a" \
                 TracSensitiveTickets \
                 TracAccountManager \
                 dnspython \
