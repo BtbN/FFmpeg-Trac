@@ -4,8 +4,8 @@ RUN apk upgrade --no-cache && \
     apk add --no-cache pcre nginx postgresql16-client sqlite curl patch git
 
 RUN pip install --upgrade --no-cache-dir setuptools pip wheel build
-RUN pip install --no-cache-dir "trac[psycopg2-binary,mysql,babel,pygments,rest,textile] @ git+https://github.com/BtbN/trac.git@3311894991fa86c41b3c6af96c5b571ef0cfcfb8" \
-                "git+https://github.com/BtbN/SimpleIrcRelay.git@18501edd6ae29892906b8abf32a9ea1497dbbb9a" \
+RUN pip install --no-cache-dir "trac[psycopg2-binary,mysql,babel,pygments,rest,textile] @ git+https://github.com/BtbN/trac.git@8d20df99823cf8655b7be7e87acd7ac569c75262" \
+                "git+https://github.com/BtbN/SimpleIrcRelay.git@5b485dbf020e1b628812d1568734d7436dd3e224" \
                 TracSensitiveTickets \
                 TracAccountManager \
                 dnspython \
