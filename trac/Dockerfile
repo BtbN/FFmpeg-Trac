@@ -8,6 +8,7 @@ RUN pip install --no-cache-dir "trac[psycopg2-binary,mysql,babel,pygments,rest,t
                 "git+https://github.com/BtbN/SimpleIrcRelay.git@5b485dbf020e1b628812d1568734d7436dd3e224" \
                 TracSensitiveTickets \
                 TracAccountManager \
+                passlib \
                 dnspython \
                 pillow \
                 filelock
