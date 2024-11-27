@@ -48,6 +48,8 @@ services:
       - front
     depends_on:
       - db
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     command: update_git
   ircbot:
     image: ffmpeg_trac:latest
