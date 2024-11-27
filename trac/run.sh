@@ -16,10 +16,13 @@ elif [ "$1" = "ircbot" ]; then
     shift
     export PYTHONUNBUFFERED=1
     exec simpleircrelay "$@"
+elif [ "$1" = "update_git" ]; then
+    shift
+    exec update_git.sh "$@"
 elif [ "$1" = "sh" ]; then
     shift
     exec sh "$@"
 else
-    echo "No mode: init, nginx, uwsgi, ircbot, sh"
+    echo "No mode: init, nginx, uwsgi, ircbot, update_git, sh"
     exit 1
 fi

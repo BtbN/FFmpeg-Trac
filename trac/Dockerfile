@@ -1,7 +1,7 @@
 FROM python:3.13-alpine AS base
 
 RUN apk upgrade --no-cache && \
-    apk add --no-cache pcre nginx postgresql16-client sqlite curl patch git
+    apk add --no-cache pcre nginx postgresql16-client sqlite curl patch git bash
 
 RUN pip install --upgrade --no-cache-dir setuptools pip wheel build
 RUN pip install --no-cache-dir "trac[psycopg2-binary,mysql,babel,pygments,rest,textile] @ git+https://github.com/BtbN/trac.git@8d20df99823cf8655b7be7e87acd7ac569c75262" \
@@ -36,6 +36,7 @@ RUN --mount=from=builder,source=/wheels,target=/wheels pip install --no-cache-di
 
 RUN --mount=source=.,target=/tmp/files cd /tmp/files && \
     cp run.sh /run.sh && \
+    cp update_git.sh /usr/local/bin/update_git.sh && \
     cp nginx.conf /etc/nginx/nginx.conf && \
     cp uwsgi.ini /etc/uwsgi.ini && \
     cp ffmpeg-logo.png /opt/ffmpeg-logo.png

@@ -34,6 +34,21 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     command: uwsgi
+  update_git:
+    image: ffmpeg_trac:latest
+    pull_policy: never
+    restart: unless-stopped
+    volumes:
+      - ./home:/home/trac
+    environment:
+      - GIT_REPO_URL=${GIT_REPO_URL:-https://git.videolan.org/git/ffmpeg.git}
+      - GIT_REPO_NAME=${GIT_REPO_NAME:-ffmpeg}
+    networks:
+      - back
+      - front
+    depends_on:
+      - db
+    command: update_git
   ircbot:
     image: ffmpeg_trac:latest
     pull_policy: never
