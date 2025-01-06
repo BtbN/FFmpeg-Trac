@@ -21,7 +21,7 @@ RUN apk add --no-cache build-base linux-headers pcre-dev subversion
 RUN pip wheel --no-cache-dir -w /wheels --no-deps \
                 uwsgi \
                 "svn+https://svn.edgewall.org/repos/trac/plugins/trunk/spam-filter@17866" \
-                "git+https://github.com/BtbN/tractags.git@f7c8af2c4c03808e8a5110e8d13ef56256a99387" \
+                "git+https://github.com/BtbN/tractags.git@f6d0aae3d7de6cbe55f57bc1cdcd09073dc696fb" \
                 "git+https://github.com/BtbN/tracvote.git@703f101ecd5d16011e679b2d2e383e3ed4757d17"
 
 # Not compatible with Python 3/Trac 1.6:
