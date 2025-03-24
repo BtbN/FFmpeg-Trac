@@ -21,7 +21,7 @@ services:
       - front
     environment:
       - BIND=:8080
-      - DIFFICULTY=5
+      - DIFFICULTY=4
       - TARGET=http://trac:3030
   trac:
     image: ffmpeg_trac:latest
