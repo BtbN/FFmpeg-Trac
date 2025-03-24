@@ -13,6 +13,16 @@ services:
     depends_on:
       - trac
     command: nginx
+  anubis:
+    image: ghcr.io/techarohq/anubis:latest
+    restart: unless-stopped
+    networks:
+      - back
+      - front
+    environment:
+      - BIND=:8080
+      - DIFFICULTY=5
+      - TARGET=http://trac:3030
   trac:
     image: ffmpeg_trac:latest
     pull_policy: build
