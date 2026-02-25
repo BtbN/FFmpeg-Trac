@@ -3,7 +3,7 @@ FROM python:3.13-alpine AS base
 RUN apk upgrade --no-cache && \
     apk add --no-cache pcre nginx postgresql16-client sqlite curl patch git bash
 
-RUN pip install --upgrade --no-cache-dir setuptools pip wheel build
+RUN pip install --upgrade --no-cache-dir "setuptools<82" pip wheel build
 RUN pip install --no-cache-dir "trac[psycopg2-binary,mysql,babel,pygments,rest,textile] @ git+https://github.com/BtbN/trac.git@8d20df99823cf8655b7be7e87acd7ac569c75262" \
                 "git+https://github.com/BtbN/SimpleIrcRelay.git@124495e57b149a0c594d5cdc7efd0abfb3a88efa" \
                 TracSensitiveTickets \
