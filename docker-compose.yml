@@ -77,7 +77,7 @@ services:
       - front
     command: ircbot
   db:
-    image: postgres:18-alpine
+    image: postgres:18
     restart: unless-stopped
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme_via_.env}
