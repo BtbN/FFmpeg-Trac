@@ -4,7 +4,7 @@ services:
     pull_policy: never
     restart: unless-stopped
     volumes:
-      - ./home:/home/trac
+      - ./home:/home/trac:z
     networks:
       - front
       - back
@@ -35,7 +35,7 @@ services:
       - UWSGI_THREADS=${UWSGI_THREADS:-4}
       - HTTP_X_FORWARDED_PROTO="${HTTP_PROTO:-http}"
     volumes:
-      - ./home:/home/trac
+      - ./home:/home/trac:z
     networks:
       - back
       - front
@@ -49,7 +49,7 @@ services:
     pull_policy: never
     restart: unless-stopped
     volumes:
-      - ./home:/home/trac
+      - ./home:/home/trac:z
     environment:
       - GIT_REPO_URL=${GIT_REPO_URL:-https://git.videolan.org/git/ffmpeg.git}
       - GIT_REPO_NAME=${GIT_REPO_NAME:-ffmpeg}
