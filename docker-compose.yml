@@ -83,9 +83,8 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme_via_.env}
       - POSTGRES_USER=${POSTGRES_USER:-trac}
       - POSTGRES_DB=${POSTGRES_DB:-trac}
-      - PGDATA=/var/lib/postgresql/data/17
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql
     networks:
       - back
 
