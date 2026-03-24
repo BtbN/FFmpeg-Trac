@@ -5,11 +5,12 @@ services:
     restart: unless-stopped
     volumes:
       - ./home:/home/trac:z
-    hostname: ${HOSTNAME:-trac-nginx}
     networks:
-      - front
-      - back
-      - caddy-shared
+      front:
+      back:
+      caddy-shared:
+        aliases:
+          - ${HOSTNAME:-trac-nginx}
     depends_on:
       - trac
     command: nginx
