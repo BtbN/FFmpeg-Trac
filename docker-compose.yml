@@ -10,7 +10,7 @@ services:
       back:
       caddy-shared:
         aliases:
-          - ${HOSTNAME:-trac-nginx}
+          - ${CADDY_NAME:-trac-nginx}
     depends_on:
       - trac
     command: nginx
