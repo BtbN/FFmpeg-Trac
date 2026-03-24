@@ -8,8 +8,7 @@ services:
     networks:
       - front
       - back
-    ports:
-      - "${HTTP_PORT:-8080}:8080"
+      - caddy-shared
     depends_on:
       - trac
     command: nginx
@@ -95,3 +94,5 @@ networks:
   front:
   back:
     internal: true
+  caddy-shared:
+    external: true
